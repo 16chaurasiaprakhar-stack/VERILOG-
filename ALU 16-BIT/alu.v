@@ -2,7 +2,7 @@ module alu16bit (
     input  [15:0] A,
     input  [15:0] B,
     input  [3:0]  ALU_Sel,   // Operation select
-    output reg [15:0] ALU_Out,
+    output reg [15:0] ALU_Out, 
     output reg CarryOut
 );
 
