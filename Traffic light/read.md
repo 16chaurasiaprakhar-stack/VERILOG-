@@ -1,3 +1,3 @@
   # USING VERILATOR , GNU , VIVADO  
 
-soon by next week 
+*soon by next week* 
