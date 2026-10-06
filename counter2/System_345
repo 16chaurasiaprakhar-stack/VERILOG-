@@ -1,0 +1,101 @@
+// =============================================================================
+// 1. `define: Preprocessor macros
+// =============================================================================
+`define DATA_WIDTH 16
+`define CMD_WIDTH  2
+
+// =============================================================================
+// 2. package: Encapsulating types, enums, and structs in a reusable namespace
+// =============================================================================
+package dsp_pkg;
+
+  // 3. typedef + enum: Strongly-typed commands
+  typedef enum logic [`CMD_WIDTH-1:0] {
+    CMD_NOP  = 2'b00,
+    CMD_ADD  = 2'b01,
+    CMD_MULT = 2'b10,
+    CMD_ERR  = 2'b11
+  } cmd_e;
+
+  // 4. typedef + struct: Packed memory layout for hardware processing
+  typedef struct packed {
+    cmd_e                   cmd;
+    logic [`DATA_WIDTH-1:0] data_a;
+    logic [`DATA_WIDTH-1:0] data_b;
+  } packet_t;
+
+endpackage : dsp_pkg
+
+// =============================================================================
+// 5. $unit scope: Declarations outside any module, interface, or package
+// =============================================================================
+const int UNIT_CLK_PERIOD_NS = 10;
+
+function void unit_logger(string msg);
+  $display("[TIME: %0t ns | $unit Scope] %s", $time, msg);
+endfunction
+
+// =============================================================================
+// Module Top: Combining all concepts in one functional block
+// =============================================================================
+module top;
+  // Import definitions from the package
+  import dsp_pkg::*;
+
+  // Signal declarations
+  packet_t              packet_in;
+  logic [33:0]          bus_wires;        // 2 + 16 + 16 = 34 bits
+  logic [1:0]           unverified_raw;
+  cmd_e                 validated_cmd;
+  longint               acc_result;
+
+  initial begin
+    // --- 1. Accessing $unit directly via scope resolution ---
+    $unit::unit_logger($sformatf("Clock configured: %0d ns", $unit::UNIT_CLK_PERIOD_NS));
+
+    // --- 2. Constructing the struct using typedef & enum ---
+    packet_in = '{
+      cmd:    CMD_MULT,
+      data_a: 16'h0008,
+      data_b: 16'h0004
+    };
+
+    // Treating the packed struct directly as a flat bit vector
+    bus_wires = packet_in;
+    $display("Packed bus value: 0x%09h (Total bits: %0d)", bus_wires, $bits(packet_in));
+
+    // --- 3. Casting Examples ---
+
+    // A. Static Cast: Real number to 16-bit logic vector
+    real scale_factor = 25.75;
+    packet_in.data_a  = logic [`DATA_WIDTH-1:0]'(scale_factor); // truncates to 16'd25
+    $display("Static Cast (real -> 16-bit logic): %0.2f -> %0d", scale_factor, packet_in.data_a);
+
+    // B. Static Cast: Raw bit-vector directly into an enum
+    unverified_raw = 2'b01;
+    validated_cmd  = cmd_e'(unverified_raw); 
+    $display("Static Cast (bits -> enum): 2'b%02b -> %s", unverified_raw, validated_cmd.name());
+
+    // C. Dynamic Cast ($cast): Safe runtime validation for illegal values
+    unverified_raw = 2'b11; // Reserved/unmapped enum state in typical state machines
+    if (!$cast(validated_cmd, unverified_raw)) begin
+      $unit::unit_logger("Dynamic $cast failed: raw bits do not map to a legal enum!");
+      validated_cmd = CMD_ERR;
+    end else begin
+      $display("Dynamic $cast passed: command is %s", validated_cmd.name());
+    end
+
+    // --- 4. Processing the struct data ---
+    case (packet_in.cmd)
+      CMD_ADD:  acc_result = packet_in.data_a + packet_in.data_b;
+      CMD_MULT: acc_result = packet_in.data_a * packet_in.data_b;
+      default:  acc_result = '0;
+    endcase
+
+    $display("Operation (%s): %0d * %0d = %0d", 
+             packet_in.cmd.name(), packet_in.data_a, packet_in.data_b, acc_result);
+
+    $finish;
+  end
+
+endmodule
