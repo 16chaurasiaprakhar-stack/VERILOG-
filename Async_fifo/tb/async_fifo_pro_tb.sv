@@ -1,17 +1,5 @@
 //-----------------------------------------------------------------------------
 // Testbench: async_fifo_pro_tb
-// Description: Multi-Phase Asynchronous FIFO Verification Suite
-// Features:
-// - Dynamic clock generation with variable frequencies (Fast/Slow Producer & Consumer)
-// - Transaction-level golden model scoreboard (SystemVerilog queue)
-// - Comprehensive corner-case coverage:
-//     Phase 1: Power-on Reset and Default Flags
-//     Phase 2: Single Entry Write/Read Handshake
-//     Phase 3: Burst Write to Full & Almost-Full Watermark Check
-//     Phase 4: Burst Read to Empty & Almost-Empty Watermark Check
-//     Phase 5: Asynchronous Clock Ratio Test: Fast Write (200MHz) -> Slow Read (25MHz)
-//     Phase 6: Asynchronous Clock Ratio Test: Slow Write (25MHz) -> Fast Read (200MHz)
-//     Phase 7: Random Concurrent Traffic with High Stress
 //-----------------------------------------------------------------------------
 `timescale 1ns / 1ps
 
