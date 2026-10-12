@@ -5,7 +5,7 @@ This folder is part of my main **Verilog** repository where I upload all my RTL 
 
 ---
 
-## 📌 What is an Asynchronous FIFO?
+##  What is an Asynchronous FIFO?
 
 An **asynchronous FIFO** (First-In-First-Out) is a memory buffer that allows data to be written using one clock (`wclk`) and read using a completely different, unrelated clock (`rclk`).
 
@@ -19,7 +19,7 @@ The hard part is that the two clocks are **not related in any way**, so special 
 
 ---
 
-## 🧠 How This Design Works (Simple Explanation)
+##  How This Design Works (Simple Explanation)
 
 The classic and safest way to build an async FIFO is:
 
@@ -40,7 +40,7 @@ This is the **"Cummings Style #1"** FIFO — the industry-standard approach that
 
 ---
 
-## 📄 Reference Paper vs. This Implementation
+##  Reference Paper vs. This Implementation
 
 This project is based on the famous **SNUG-2002 paper** by *Clifford E. Cummings & Peter Alfke*:
 
@@ -52,9 +52,9 @@ That paper presents **FIFO Style #2**, which uses **asynchronous pointer compari
 
 So in this project, I deliberately implemented **Style #1** (the *synchronize-then-compare* approach) instead of Style #2, because Style #1 is what's actually used in production silicon.
 
-### 🔍 Side-by-Side Comparison
+###  Side-by-Side Comparison
 
-| Aspect | 📄 Paper (Style #2) | ✅ This Project (Style #1) |
+| Aspect |  Paper (Style #2) |  This Project (Style #1) |
 |---|---|---|
 | **Pointer comparison** | Asynchronous (combinational across domains) | Synchronous (in each own domain) |
 | **Full / Empty generation** | Async set/reset via RS latches | Registered flip-flops, synchronous |
@@ -68,7 +68,7 @@ So in this project, I deliberately implemented **Style #1** (the *synchronize-th
 | **Portability across tools** | Requires vendor-specific handling | Works the same on Vivado/Quartus/DC/Genus |
 | **Production readiness** | Academic / legacy | ✅ Industry gold standard |
 
-### 🎯 Why Style #1 Wins in Production
+###  Why Style #1 Wins in Production
 
 1. **STA-friendly**  
    Every path has a clear launch clock and capture clock. No path crosses domains combinationally, so static timing analysis just works.
@@ -88,7 +88,7 @@ So in this project, I deliberately implemented **Style #1** (the *synchronize-th
 6. **Silicon-proven**  
    This style is what virtually every production async FIFO uses (CPU interconnects, PCIe, DDR controllers, NoC bridges, etc.).
 
-### ⚠️ What Style #2 Gets Right (and Why It's Still Interesting)
+###  What Style #2 Gets Right (and Why It's Still Interesting)
 
 To be fair to the paper, Style #2 does have two real advantages:
 
@@ -101,7 +101,7 @@ So this repo includes the paper for reference, but the actual RTL is a **Style #
 
 ---
 
-## 📂 What's Inside This Folder
+##  What's Inside This Folder
 
 ```
 asynchronous-fifo/
@@ -132,17 +132,17 @@ asynchronous-fifo/
 
 | Feature | Description |
 |---|---|
-| ✅ Parameterized | Configurable data width, depth, and sync stages |
-| ✅ Metastability-safe | 2-flop synchronizers with `ASYNC_REG` attributes |
-| ✅ Glitch-free flags | `wfull` / `rempty` are registered outputs |
-| ✅ Watermarks | `almost_full` / `almost_empty` for flow control |
-| ✅ Occupancy counters | Pessimistic but safe item-count outputs |
-| ✅ Independent resets | `wrst_n` and `rrst_n` per clock domain |
-| ✅ FPGA + ASIC friendly | Works on Vivado, Quartus, DC, Genus |
+|  Parameterized | Configurable data width, depth, and sync stages |
+|  Metastability-safe | 2-flop synchronizers with `ASYNC_REG` attributes |
+|  Glitch-free flags | `wfull` / `rempty` are registered outputs |
+|  Watermarks | `almost_full` / `almost_empty` for flow control |
+|  Occupancy counters | Pessimistic but safe item-count outputs |
+|  Independent resets | `wrst_n` and `rrst_n` per clock domain |
+|  FPGA + ASIC friendly | Works on Vivado, Quartus, DC, Genus |
 
 ---
 
-## ⚙️ Main Parameters
+##  Main Parameters
 
 | Parameter | Default | Meaning |
 |---|---|---|
@@ -154,7 +154,7 @@ asynchronous-fifo/
 
 ---
 
-## 🔌 How to Use It
+##  How to Use It
 
 Instantiate the top module in your design:
 
@@ -192,7 +192,7 @@ async_fifo_pro #(
 
 ---
 
-## ▶️ How to Simulate
+##  How to Simulate
 
 ### Using ModelSim / Questa
 
@@ -216,7 +216,7 @@ gtkwave async_fifo_pro.vcd
 
 ---
 
-## 📊 What the Testbench Checks
+##  What the Testbench Checks
 
 The included testbench exercises the FIFO in **7 phases**:
 
@@ -230,7 +230,7 @@ The included testbench exercises the FIFO in **7 phases**:
 
 ---
 
-## 📚 Where I Learned This
+##  Where I Learned This
 
 This design follows the classic papers by **Clifford E. Cummings**:
 
@@ -241,12 +241,12 @@ Both papers are widely regarded as the **definitive reference** for async FIFO d
 
 ---
 
-## 📜 License
+##  License
 
 MIT License — free to use, modify, and learn from.
 
 ---
 
-### 🔗 Part of the [Verilog Projects](../) collection
+###  Part of the [Verilog Projects](../) collection
 
 *Each folder in this repo is a self-contained RTL project. Browse the parent directory to see more.*
