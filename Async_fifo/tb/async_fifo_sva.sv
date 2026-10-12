@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // Module: async_fifo_sva
-// Description: Production Protocol & Functional Assertions for Async FIFO
+// Description: Production Protocol 
 //-----------------------------------------------------------------------------
 `timescale 1ns / 1ps
 
