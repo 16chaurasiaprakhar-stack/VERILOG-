@@ -19,7 +19,7 @@ The hard part is that the two clocks are **not related in any way**, so special 
 
 ---
 
-##  How This Design Works (Simple Explanation)
+##  How This Design Works 
 
 The classic and safest way to build an async FIFO is:
 
