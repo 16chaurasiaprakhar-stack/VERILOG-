@@ -19,7 +19,7 @@ The hard part is that the two clocks are **not related in any way**, so special 
 
 ---
 
-##  How This Design Works 
+##  How This Design Works ?
 
 The classic and safest way to build an async FIFO is:
 
@@ -230,7 +230,7 @@ The included testbench exercises the FIFO in **7 phases**:
 
 ---
 
-##  Where I Learned This
+##  Reference 
 
 This design follows the classic papers by **Clifford E. Cummings**:
 
