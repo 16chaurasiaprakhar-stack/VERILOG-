@@ -68,7 +68,7 @@ So in this project, I deliberately implemented **Style #1** (the *synchronize-th
 | **Portability across tools** | Requires vendor-specific handling | Works the same on Vivado/Quartus/DC/Genus |
 | **Production readiness** | Academic / legacy | ✅ Industry gold standard |
 
-###  Why Style #1 Wins in Production
+###  Why Style #1 is preferred 
 
 1. **STA-friendly**  
    Every path has a clear launch clock and capture clock. No path crosses domains combinationally, so static timing analysis just works.
@@ -88,7 +88,7 @@ So in this project, I deliberately implemented **Style #1** (the *synchronize-th
 6. **Silicon-proven**  
    This style is what virtually every production async FIFO uses (CPU interconnects, PCIe, DDR controllers, NoC bridges, etc.).
 
-###  What Style #2 Gets Right (and Why It's Still Interesting)
+###  What Style #2 Gets Right also 
 
 To be fair to the paper, Style #2 does have two real advantages:
 
