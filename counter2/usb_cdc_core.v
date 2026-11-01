@@ -2,11 +2,11 @@
 //                       USB CDC Device
 //                            V0.1
 //                     Ultra-Embedded.com
-//                     Copyright 2014-2019
+//                     
 //
-//                 Email: admin@ultra-embedded.com
+//                
 //
-//                         License: LGPL
+//                         
 //-----------------------------------------------------------------
 //
 // This source file may be used and distributed without         
