@@ -19,7 +19,6 @@
 // Output-2: qn Q-Inverted
 //
 //
-//  D Flip-Flop (verilog register simulation)
 //
 //
 //
